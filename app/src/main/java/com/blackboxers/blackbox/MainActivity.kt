@@ -28,13 +28,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             val context = LocalContext.current
 
             BlackboxTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(Modifier.padding(innerPadding)) {
-                        BlackboxMainPage(context)
+                        BlackboxMainPage(Blackbox(), context)
                     }
                 }
             }
@@ -43,66 +44,58 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun BlackboxMainPage(context: Context) {
+fun BlackboxMainPage(bb: Blackbox, context: Context) {
     val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
     val sensors = listOf(
         RotationSensorView(RotationSensor(context)),
         xyzSensorView(
-            "Accelerometer",
             "m/s",
-            XYZSensor(context, Sensor.TYPE_ACCELEROMETER)
+            bb.addSensor(XYZSensor("Accelerometer", context, Sensor.TYPE_ACCELEROMETER))
         ),
         xyzSensorView(
-            "Gravity",
             "m/s",
-            XYZSensor(context, Sensor.TYPE_GRAVITY)
+            bb.addSensor(XYZSensor("Gravity", context, Sensor.TYPE_GRAVITY))
         ),
         xyzSensorView(
-            "Linear Acceleration",
             "m/s",
-            XYZSensor(context, Sensor.TYPE_LINEAR_ACCELERATION)
+            bb.addSensor(XYZSensor("Linear Acceleration", context, Sensor.TYPE_LINEAR_ACCELERATION))
         ),
         xyzSensorView(
-            "Gyroscope",
             "rad/s",
-            XYZSensor(context, Sensor.TYPE_GYROSCOPE)
+            bb.addSensor(XYZSensor("Gyroscope", context, Sensor.TYPE_GYROSCOPE))
         ),
         xyzSensorView(
-            "Geomagnetic",
             "sin(θ/2)",
-            XYZSensor(context, Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR)
+            bb.addSensor(XYZSensor("Geomagnetic", context, Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR))
         ),
         xyzSensorView(
-            "Magnetic Field",
             "μT",
-            XYZSensor(context, Sensor.TYPE_MAGNETIC_FIELD)
+            bb.addSensor(XYZSensor("Magnetic Field", context, Sensor.TYPE_MAGNETIC_FIELD))
         ),
         xyzSensorView(
-            "Orientation",
             "°C",
-            OrientationSensor
+            bb.addSensor(OrientationSensor)
         ),
         floatSensorView(
-            "Proximity",
             "cm",
-            FloatSensor(context, Sensor.TYPE_PROXIMITY)
+            bb.addSensor(FloatSensor("Proximity", context, Sensor.TYPE_PROXIMITY))
         ),
         floatSensorView(
-            "Temperature", "°C",
-            FloatSensor(context, Sensor.TYPE_AMBIENT_TEMPERATURE)
+            "°C",
+            bb.addSensor(FloatSensor("Temperature", context, Sensor.TYPE_AMBIENT_TEMPERATURE))
         ),
         floatSensorView(
-            "Light", "lumen",
-            FloatSensor(context, Sensor.TYPE_LIGHT)
+            "lumen",
+            bb.addSensor(FloatSensor("Light", context, Sensor.TYPE_LIGHT))
         ),
         floatSensorView(
-            "Pressure", "mBar",
-            FloatSensor(context, Sensor.TYPE_PRESSURE)
+            "mBar",
+            bb.addSensor(FloatSensor("Pressure", context, Sensor.TYPE_PRESSURE))
         ),
         floatSensorView(
-            "Humidity", "%",
-            FloatSensor(context, Sensor.TYPE_RELATIVE_HUMIDITY)
+            "%",
+            bb.addSensor(FloatSensor("Humidity", context, Sensor.TYPE_RELATIVE_HUMIDITY))
         ),
     )
 

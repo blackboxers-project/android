@@ -5,8 +5,8 @@ import androidx.compose.ui.Modifier
 
 interface BlackboxSensorView {
 
-    val name: String
+    val sensorName: String
 
-    fun view(): @Composable (Modifier) -> Unit
+    val view: @Composable (Modifier) -> Unit
 
 }

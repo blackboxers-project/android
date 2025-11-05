@@ -2,12 +2,30 @@ package com.blackboxers.blackbox.view
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.blackboxers.blackbox.sensor.BlackboxSensor
+import kotlinx.coroutines.delay
 
 abstract class AbstractSensorView<V>(private val sensor: BlackboxSensor<V>) : BlackboxSensorView {
-    override fun view(): @Composable (Modifier) -> Unit = { modifier ->
-        val value: V? = sensor.fetch()
+    override val sensorName: String = sensor.name
+
+    override val view: @Composable (Modifier) -> Unit = { modifier ->
+
+        var value by remember { mutableStateOf<V?>(null) }
+
+        // Coroutine that updates "value" every second
+        LaunchedEffect(sensor) {
+            while (true) {
+                // Run potentially blocking fetch on IO dispatcher
+                value = sensor.fetch()
+                delay(100L)
+            }
+        }
 
         value
             ?.let { getComposableView()(modifier, it) }
@@ -20,7 +38,7 @@ abstract class AbstractSensorView<V>(private val sensor: BlackboxSensor<V>) : Bl
      * A composable to show when there is no data to be shown by the sensor
      */
     open fun getNoDataComposable(): @Composable (Modifier) -> Unit = {
-        NoDataView(it, name)
+        NoDataView(it, sensor.name)
     }
 
     /**

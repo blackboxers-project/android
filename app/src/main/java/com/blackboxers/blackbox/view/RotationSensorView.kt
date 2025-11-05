@@ -7,8 +7,6 @@ import com.blackboxers.blackbox.sensor.RotationSensor
 
 class RotationSensorView(sensor: RotationSensor) :
     AbstractSensorView<Triple<Float, Float, Float>>(sensor) {
-    override val name: String = "Rotation"
-
     override fun getComposableView(): @Composable ((Modifier, Triple<Float, Float, Float>) -> Unit) {
         return { _, orientation -> RotationSensorComposable(orientation) }
     }

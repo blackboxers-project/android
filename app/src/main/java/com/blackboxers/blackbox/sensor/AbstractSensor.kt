@@ -6,7 +6,10 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 
-abstract class AbstractSensor<out V>(context: Context) : BlackboxSensor<V> {
+abstract class AbstractSensor<out V>(
+    override val name: String,
+    context: Context
+) : BlackboxSensor<V> {
 
     protected val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
@@ -22,11 +25,11 @@ abstract class AbstractSensor<out V>(context: Context) : BlackboxSensor<V> {
 
     private var valueBuff: V? = null
 
-    fun bindListener() {
+    protected fun bindListener() {
         sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_UI)
     }
 
-    fun unbindListener() {
+    protected fun unbindListener() {
         sensorManager.unregisterListener(listener)
     }
 

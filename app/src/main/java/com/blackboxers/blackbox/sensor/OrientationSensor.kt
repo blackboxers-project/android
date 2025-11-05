@@ -3,8 +3,11 @@ package com.blackboxers.blackbox.sensor
 import android.hardware.SensorManager
 
 object OrientationSensor : BlackboxSensor<Triple<Float, Float, Float>> {
+
     private val rotationMatrix = FloatArray(9)
     private val orientationValues = FloatArray(3)
+
+    override val name: String = "Orientation"
 
     override fun fetch(): Triple<Float, Float, Float> {
         // Get orientation angles from rotation matrix

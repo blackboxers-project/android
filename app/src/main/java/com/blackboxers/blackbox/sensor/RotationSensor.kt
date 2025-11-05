@@ -5,7 +5,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorManager
 
-class RotationSensor(context: Context) : AbstractSensor<Triple<Float, Float, Float>>(context) {
+class RotationSensor(context: Context) : AbstractSensor<Triple<Float, Float, Float>>("Orientation", context) {
 
     val rotationMatrix = FloatArray(9)
     val orientationValues = FloatArray(3)

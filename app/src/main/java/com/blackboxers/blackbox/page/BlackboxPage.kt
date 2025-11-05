@@ -23,8 +23,8 @@ fun BlackboxPage(sensors: List<BlackboxSensorView>, modifier: Modifier = Modifie
         .padding(16.dp)) {
         for (sensor in sensors) {
             Column(modifier) {
-                Text(sensor.name + " Sensor")
-                sensor.view()(modifier)
+                Text(sensor.sensorName + " Sensor")
+                sensor.view(modifier)
             }
         }
     }
