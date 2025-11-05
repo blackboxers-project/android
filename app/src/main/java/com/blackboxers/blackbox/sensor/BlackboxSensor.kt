@@ -1,6 +1,8 @@
 package com.blackboxers.blackbox.sensor
 
-interface BlackboxSensor<out V> {
+import com.blackboxers.blackbox.data.Value
+
+interface BlackboxSensor<out V: Value> {
 
     val name: String
 

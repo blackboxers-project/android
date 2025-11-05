@@ -8,10 +8,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.blackboxers.blackbox.data.Value
 import com.blackboxers.blackbox.sensor.BlackboxSensor
 import kotlinx.coroutines.delay
 
-abstract class AbstractSensorView<V>(private val sensor: BlackboxSensor<V>) : BlackboxSensorView {
+abstract class AbstractSensorView<V: Value>(private val sensor: BlackboxSensor<V>) : BlackboxSensorView {
     override val sensorName: String = sensor.name
 
     override val view: @Composable (Modifier) -> Unit = { modifier ->

@@ -5,8 +5,9 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import com.blackboxers.blackbox.data.Value
 
-abstract class AbstractSensor<out V>(
+abstract class AbstractSensor<out V: Value>(
     override val name: String,
     context: Context
 ) : BlackboxSensor<V> {

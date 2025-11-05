@@ -1,15 +1,16 @@
 package com.blackboxers.blackbox
 
+import com.blackboxers.blackbox.data.Value
 import com.blackboxers.blackbox.sensor.BlackboxSensor
-import java.io.Serializable
 
-typealias BlackboxReport = Map<String, Serializable?>
+import java.io.Serializable
+typealias BlackboxReport = Map<String, Value?>
 
 class Blackbox {
 
-    private val sensors = HashMap<String, BlackboxSensor<Serializable>>()
+    private val sensors = HashMap<String, BlackboxSensor<Value>>()
 
-    fun <V: Serializable, S: BlackboxSensor<V>> addSensor(sensor: S): S {
+    fun <V: Value, S: BlackboxSensor<V>> addSensor(sensor: S): S {
         sensors.put(sensor.name, sensor)
         return sensor
     }

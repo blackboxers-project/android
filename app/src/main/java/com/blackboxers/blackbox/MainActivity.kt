@@ -2,7 +2,6 @@ package com.blackboxers.blackbox
 
 import android.content.Context
 import android.hardware.Sensor
-import android.hardware.SensorManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.blackboxers.blackbox.data.XYZ
 import com.blackboxers.blackbox.page.BlackboxPage
 import com.blackboxers.blackbox.sensor.FloatSensor
 import com.blackboxers.blackbox.sensor.OrientationSensor
@@ -23,6 +24,8 @@ import com.blackboxers.blackbox.ui.theme.BlackboxTheme
 import com.blackboxers.blackbox.view.RotationSensorView
 import com.blackboxers.blackbox.view.floatSensorView
 import com.blackboxers.blackbox.view.xyzSensorView
+import kotlinx.coroutines.delay
+import kotlinx.serialization.json.Json
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +38,14 @@ class MainActivity : ComponentActivity() {
             BlackboxTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(Modifier.padding(innerPadding)) {
-                        BlackboxMainPage(Blackbox(), context)
+                        val blackbox = Blackbox()
+                        LaunchedEffect(Unit) {
+                            while (true) {
+                                delay(500)
+                                sendReport(blackbox.generateReport())
+                            }
+                        }
+                        BlackboxMainPage(blackbox, context)
                     }
                 }
             }
@@ -43,9 +53,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+fun sendReport(report: BlackboxReport) {
+    println(Json.encodeToString(report))
+}
+
 @Composable
 fun BlackboxMainPage(bb: Blackbox, context: Context) {
-    val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
     val sensors = listOf(
         RotationSensorView(RotationSensor(context)),

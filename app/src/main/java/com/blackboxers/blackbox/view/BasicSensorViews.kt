@@ -3,15 +3,17 @@ package com.blackboxers.blackbox.view
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.blackboxers.blackbox.data.FloatValue
+import com.blackboxers.blackbox.data.XYZ
 import com.blackboxers.blackbox.sensor.BlackboxSensor
 
 
 fun xyzSensorView(
     unit: String,
-    sensor: BlackboxSensor<Triple<Number, Number, Number>>
+    sensor: BlackboxSensor<XYZ>
 ): BlackboxSensorView {
-    return object : AbstractSensorView<Triple<Number, Number, Number>>(sensor) {
-        override fun getComposableView(): @Composable ((Modifier, Triple<Number, Number, Number>) -> Unit) = {
+    return object : AbstractSensorView<XYZ>(sensor) {
+        override fun getComposableView(): @Composable ((Modifier, XYZ) -> Unit) = {
                 _, it -> XYZSensorComposable(it, unit)
         }
     }
@@ -19,24 +21,24 @@ fun xyzSensorView(
 
 fun floatSensorView(
     unit: String,
-    sensor: BlackboxSensor<Float>
+    sensor: BlackboxSensor<FloatValue>
 ): BlackboxSensorView {
-    return object : AbstractSensorView<Float>(sensor) {
-        override fun getComposableView(): @Composable ((Modifier, Float) -> Unit) = {
-                _, it -> FloatSensorComposable(it, unit)
+    return object : AbstractSensorView<FloatValue>(sensor) {
+        override fun getComposableView(): @Composable ((Modifier, FloatValue) -> Unit) = {
+                _, it -> FloatSensorComposable(it.value, unit)
         }
     }
 }
 
 @Composable
 fun XYZSensorComposable(
-    xyz: Triple<Number, Number, Number>,
+    xyz: XYZ,
     unit: String
 ) {
     Text(
-        text = "X: ${xyz.first} $unit\n" +
-                "Y: ${xyz.second} $unit\n" +
-                "Z: ${xyz.third} $unit"
+        text = "X: ${xyz.x} $unit\n" +
+                "Y: ${xyz.y} $unit\n" +
+                "Z: ${xyz.z} $unit"
     )
 }
 

@@ -3,11 +3,12 @@ package com.blackboxers.blackbox.view
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.blackboxers.blackbox.data.XYZ
 import com.blackboxers.blackbox.sensor.RotationSensor
 
 class RotationSensorView(sensor: RotationSensor) :
-    AbstractSensorView<Triple<Float, Float, Float>>(sensor) {
-    override fun getComposableView(): @Composable ((Modifier, Triple<Float, Float, Float>) -> Unit) {
+    AbstractSensorView<XYZ>(sensor) {
+    override fun getComposableView(): @Composable ((Modifier, XYZ) -> Unit) {
         return { _, orientation -> RotationSensorComposable(orientation) }
     }
 }
@@ -15,11 +16,11 @@ class RotationSensorView(sensor: RotationSensor) :
 
 @Composable
 fun RotationSensorComposable(
-    orientation: Triple<Float, Float, Float>
+    orientation: XYZ
 ) {
     Text(
-        text = "Azimuth (Z): ${orientation.first}°\n" +
-                "Pitch (X): ${orientation.second}°\n" +
-                "Roll (Y): ${orientation.third}°"
+        text = "Azimuth (Z): ${orientation.x}°\n" +
+                "Pitch (X): ${orientation.y}°\n" +
+                "Roll (Y): ${orientation.z}°"
     )
 }
